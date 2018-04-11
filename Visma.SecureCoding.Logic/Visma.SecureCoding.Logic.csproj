@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Visma.SecureCoding.DataAccess\Visma.SecureCoding.DataAccess.csproj" />
+    <ProjectReference Include="..\Visma.SecureCoding.Infrastructure\Visma.SecureCoding.Infrastructure.csproj" />
+    <ProjectReference Include="..\Visma.SecureCoding.Domain\Visma.SecureCoding.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>

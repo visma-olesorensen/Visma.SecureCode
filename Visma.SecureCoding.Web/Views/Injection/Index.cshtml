@@ -1,0 +1,35 @@
+@using Visma.SecureCoding.Web.Models;
+@model InjectionViewModel
+
+@{
+    ViewData["Title"] = "Injection";
+}
+
+<h1>Injection</h1>
+<p>Connection string: <b>@Model.ConnectionString</b></p>
+
+<h3>Initialize the database</h3>
+<form asp-controller="Injection" asp-action="InitializeDatabase" method="post">
+    <div class="form-group">
+        <label asp-for="InitializeDatabaseStatement"></label>
+        <textarea class="form-control" rows="9" readonly="true">@Model.InitializeDatabaseStatement</textarea>
+    </div>
+    <div class="text-right">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Commit</button>
+        </div>
+    </div>
+</form>
+
+<h3>Execute query where SQL injection are allowed</h3>
+<form asp-controller="Injection" asp-action="MakeAllowedSqlInjectionQuery" method="post">
+    <div class="form-group">
+        <label>SELECT AccountId,AccountNumber,AccountName,Salary FROM Accounts WHERE AccountId=</label>
+        <input asp-for="AccountFilterWithSqlInjection" class="form-control" />
+    </div>
+    <div class="text-right">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Commit</button>
+        </div>
+    </div>
+</form>

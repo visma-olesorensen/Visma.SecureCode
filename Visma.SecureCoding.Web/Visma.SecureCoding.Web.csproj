@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>BFBA75D9-5BF7-4123-8F4C-6073C957CE6C</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Visma.SecureCoding.Logic\Visma.SecureCoding.Logic.csproj" />
+    <ProjectReference Include="..\Visma.SecureCoding.Infrastructure\Visma.SecureCoding.Infrastructure.csproj" />
+    <ProjectReference Include="..\Visma.SecureCoding.DataAccess\Visma.SecureCoding.DataAccess.csproj" />
+    <ProjectReference Include="..\Visma.SecureCoding.Domain\Visma.SecureCoding.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
