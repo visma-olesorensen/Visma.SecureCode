@@ -12,5 +12,8 @@ namespace Visma.SecureCoding.Web.Models
 
         [Display(Name="Account collection filter", ShortName="Filter", Description="The account collection filter")]
         public string AccountFilterWithSqlInjection { get; set; }
+
+        [Display(Name="Last query result", ShortName="Result", Description="The result of the last query")]
+        public string LastQueryResult { get; set; }
     }
 }

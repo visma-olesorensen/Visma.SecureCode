@@ -25,6 +25,7 @@ namespace Visma.SecureCoding.Web
             services.AddTransient<ISqlWrapper, SqlWrapper>();
             services.AddTransient<IInitializeDatabaseCommandHandler, InitializeDatabaseCommandHandler>();
             services.AddTransient<IAllowedSqlInjectionQueryHandler, AllowedSqlInjectionQueryHandler>();
+            services.AddTransient<IDisallowedSqlInjectionByParametersQueryHandler, DisallowedSqlInjectionByParametersQueryHandler>();
             services.AddMvc();
         }
 

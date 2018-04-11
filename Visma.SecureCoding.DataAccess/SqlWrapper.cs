@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using Visma.SecureCoding.DataAccess.Contracts;
 
 namespace Visma.SecureCoding.DataAccess
@@ -54,6 +55,7 @@ namespace Visma.SecureCoding.DataAccess
         {
             if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(nameof(connectionString));
             if (string.IsNullOrWhiteSpace(sqlStatement)) throw new ArgumentNullException(nameof(sqlStatement));
+            if (resultMapper == null) throw new ArgumentNullException(nameof(resultMapper));
 
             using (IDbConnection dbConnection = _sqlConnectionFactory.Create(connectionString))
             {
@@ -64,6 +66,44 @@ namespace Visma.SecureCoding.DataAccess
                     {
                         dbCommand.CommandText = sqlStatement;
                         dbCommand.CommandType = CommandType.Text;
+                        using (IDataReader dataReader = dbCommand.ExecuteReader())
+                        {
+                            IList<TResult> result = new List<TResult>();
+                            while (dataReader.Read())
+                            {
+                                result.Add(resultMapper(dataReader));
+                            }
+                            return result;
+                        }
+                    }
+                }
+                finally
+                {
+                    dbConnection.Close();
+                }
+            }
+        }
+
+        public IEnumerable<TResult> ExecuteReader<TResult>(string connectionString, string sqlStatement, IDictionary<string, object> sqlParameters, Func<IDataReader, TResult> resultMapper)
+        {
+            if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(nameof(connectionString));
+            if (string.IsNullOrWhiteSpace(sqlStatement)) throw new ArgumentNullException(nameof(sqlStatement));
+            if (sqlParameters == null) throw new ArgumentNullException(nameof(sqlParameters));
+            if (resultMapper == null) throw new ArgumentNullException(nameof(resultMapper));
+
+            using (IDbConnection dbConnection = _sqlConnectionFactory.Create(connectionString))
+            {
+                dbConnection.Open();
+                try
+                {
+                    using (IDbCommand dbCommand = dbConnection.CreateCommand())
+                    {
+                        dbCommand.CommandText = sqlStatement;
+                        dbCommand.CommandType = CommandType.Text;
+                        foreach (KeyValuePair<string, object> sqlParameter in sqlParameters)
+                        {
+                            ((SqlCommand) dbCommand).Parameters.AddWithValue(sqlParameter.Key, sqlParameter.Value);
+                        }
                         using (IDataReader dataReader = dbCommand.ExecuteReader())
                         {
                             IList<TResult> result = new List<TResult>();

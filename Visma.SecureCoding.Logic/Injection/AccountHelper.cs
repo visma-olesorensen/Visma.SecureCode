@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using Visma.SecureCoding.DataAccess;
 using Visma.SecureCoding.Domain;
 using Visma.SecureCoding.Domain.Contracts;
@@ -24,6 +26,18 @@ namespace Visma.SecureCoding.Logic.Injection
                 accountNumber,
                 accountName,
                 salary);
+        }
+
+        public static string ToText(this IEnumerable<IAccount> accountCollection)
+        {
+            if (accountCollection == null) throw new ArgumentNullException(nameof(accountCollection));
+
+            StringBuilder textBuilder = new StringBuilder();
+            foreach (IAccount account in accountCollection)
+            {
+                textBuilder.Append(account.ToString());
+            }
+            return textBuilder.ToString();
         }
 
        #endregion

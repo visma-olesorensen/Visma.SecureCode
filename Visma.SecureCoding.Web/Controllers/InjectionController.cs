@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Visma.SecureCoding.Domain.Contracts;
 using Visma.SecureCoding.Logic.Contracts.Injection;
 using Visma.SecureCoding.Logic.Injection;
 using Visma.SecureCoding.Web.Models;
@@ -13,21 +15,23 @@ namespace Visma.SecureCoding.Web.Controllers
 
         private readonly IInitializeDatabaseCommandHandler _initializeDatabaseCommandHandler;
         private readonly IAllowedSqlInjectionQueryHandler _allowedSqlInjectionQueryHandler;
-
+        private readonly IDisallowedSqlInjectionByParametersQueryHandler _disallowedSqlInjectionByParametersQueryHandler;
         private readonly IConfiguration _configuration;
 
         #endregion
 
         #region Constructors
 
-        public InjectionController(IInitializeDatabaseCommandHandler initializeDatabaseCommandHandler, IAllowedSqlInjectionQueryHandler allowedSqlInjectionQueryHandler, IConfiguration configuration)
+        public InjectionController(IInitializeDatabaseCommandHandler initializeDatabaseCommandHandler, IAllowedSqlInjectionQueryHandler allowedSqlInjectionQueryHandler, IDisallowedSqlInjectionByParametersQueryHandler disallowedSqlInjectionByParametersQueryHandler, IConfiguration configuration)
         {
             if (initializeDatabaseCommandHandler == null) throw new ArgumentNullException(nameof(initializeDatabaseCommandHandler));
             if (allowedSqlInjectionQueryHandler == null) throw new ArgumentNullException(nameof(allowedSqlInjectionQueryHandler));
+            if (disallowedSqlInjectionByParametersQueryHandler == null) throw new ArgumentNullException(nameof(disallowedSqlInjectionByParametersQueryHandler));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
             _initializeDatabaseCommandHandler = initializeDatabaseCommandHandler;
             _allowedSqlInjectionQueryHandler = allowedSqlInjectionQueryHandler;
+            _disallowedSqlInjectionByParametersQueryHandler = disallowedSqlInjectionByParametersQueryHandler;
             _configuration = configuration;
         }
 
@@ -59,12 +63,24 @@ namespace Visma.SecureCoding.Web.Controllers
             if (injectionViewModel == null) throw new ArgumentNullException(nameof(injectionViewModel));
 
             IFilteredAccountCollectionQuery filteredAccountCollectionQuery = new FilteredAccountCollectionQuery(GetConnectionString(), injectionViewModel.AccountFilterWithSqlInjection);
-            _allowedSqlInjectionQueryHandler.Execute(filteredAccountCollectionQuery);
+            IEnumerable<IAccount> filteredAccountCollection = _allowedSqlInjectionQueryHandler.Execute(filteredAccountCollectionQuery);
 
-            return View("Index", CreateDefaultInjectionViewModel());
+            return View("Index", CreateDefaultInjectionViewModel(filteredAccountCollection.ToText()));
         }
 
-        private InjectionViewModel CreateDefaultInjectionViewModel()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MakeDisallowSqlInjectionByParametsQuery(InjectionViewModel injectionViewModel)
+        {
+            if (injectionViewModel == null) throw new ArgumentNullException(nameof(injectionViewModel));
+
+            IFilteredAccountCollectionQuery filteredAccountCollectionQuery = new FilteredAccountCollectionQuery(GetConnectionString(), injectionViewModel.AccountFilterWithSqlInjection);
+            IEnumerable<IAccount> filteredAccountCollection = _disallowedSqlInjectionByParametersQueryHandler.Execute(filteredAccountCollectionQuery);
+
+            return View("Index", CreateDefaultInjectionViewModel(filteredAccountCollection.ToText()));
+        }
+
+        private InjectionViewModel CreateDefaultInjectionViewModel(string lastQueryResult = null)
         {
             string connectionString = GetConnectionString();
             IInitializeDatabaseCommand initializeDatabaseCommand = CreateInitializeDatabaseCommand(connectionString);
@@ -73,7 +89,8 @@ namespace Visma.SecureCoding.Web.Controllers
             {
                 ConnectionString = connectionString,
                 InitializeDatabaseStatement = initializeDatabaseCommand.Statement,
-                AccountFilterWithSqlInjection = "2;UPDATE Accounts SET Salary=Salary*2 WHERE AccountId=2;"
+                AccountFilterWithSqlInjection = "2;UPDATE Accounts SET Salary=Salary*2 WHERE AccountId=2;",
+                LastQueryResult = lastQueryResult
             };
         }
 

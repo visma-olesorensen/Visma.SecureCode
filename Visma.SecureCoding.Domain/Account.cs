@@ -31,5 +31,14 @@ namespace Visma.SecureCoding.Domain
         public decimal Salary { get; private set; }
         
         #endregion
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return $"{AccountNumber} - {AccountName}\tSalary:{Salary.ToString("C")}";
+        }
+
+        #endregion
     }
 }
