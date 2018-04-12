@@ -102,7 +102,10 @@ namespace Visma.SecureCoding.DataAccess
                         dbCommand.CommandType = CommandType.Text;
                         foreach (KeyValuePair<string, object> sqlParameter in sqlParameters)
                         {
-                            ((SqlCommand) dbCommand).Parameters.AddWithValue(sqlParameter.Key, sqlParameter.Value);
+                            IDbDataParameter dbDataParameter = dbCommand.CreateParameter();
+                            dbDataParameter.ParameterName = sqlParameter.Key;
+                            dbDataParameter.Value = sqlParameter.Value;
+                            dbCommand.Parameters.Add(dbDataParameter);
                         }
                         using (IDataReader dataReader = dbCommand.ExecuteReader())
                         {

@@ -65,7 +65,7 @@ namespace Visma.SecureCoding.Web.Controllers
             IFilteredAccountCollectionQuery filteredAccountCollectionQuery = new FilteredAccountCollectionQuery(GetConnectionString(), injectionViewModel.AccountFilterWithSqlInjection);
             IEnumerable<IAccount> filteredAccountCollection = _allowedSqlInjectionQueryHandler.Execute(filteredAccountCollectionQuery);
 
-            return View("Index", CreateDefaultInjectionViewModel(filteredAccountCollection.ToText()));
+            return View("Index", CreateDefaultInjectionViewModel(filteredAccountCollection.ToText().Replace(Environment.NewLine, "<br />")));
         }
 
         [HttpPost]
@@ -77,7 +77,7 @@ namespace Visma.SecureCoding.Web.Controllers
             IFilteredAccountCollectionQuery filteredAccountCollectionQuery = new FilteredAccountCollectionQuery(GetConnectionString(), injectionViewModel.AccountFilterWithSqlInjection);
             IEnumerable<IAccount> filteredAccountCollection = _disallowedSqlInjectionByParametersQueryHandler.Execute(filteredAccountCollectionQuery);
 
-            return View("Index", CreateDefaultInjectionViewModel(filteredAccountCollection.ToText()));
+            return View("Index", CreateDefaultInjectionViewModel(filteredAccountCollection.ToText().Replace(Environment.NewLine, "<br />")));
         }
 
         private InjectionViewModel CreateDefaultInjectionViewModel(string lastQueryResult = null)

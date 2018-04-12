@@ -36,7 +36,7 @@ namespace Visma.SecureCoding.Domain
 
         public override string ToString()
         {
-            return $"{AccountNumber} - {AccountName}\tSalary:{Salary.ToString("C")}";
+            return $"{AccountNumber} - {AccountName}\tSalary: {Salary.ToString("C")}";
         }
 
         #endregion

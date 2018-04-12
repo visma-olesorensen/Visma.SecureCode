@@ -11,7 +11,7 @@
 @if (string.IsNullOrWhiteSpace(Model.LastQueryResult) == false)
 {
     <h3>Last query result</h3>
-    <p>@Model.LastQueryResult</p>
+    <p>@Html.Raw(Model.LastQueryResult)</p>
 }
 
 <h3>Initialize the database</h3>

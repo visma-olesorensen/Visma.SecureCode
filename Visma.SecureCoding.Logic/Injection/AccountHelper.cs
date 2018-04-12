@@ -35,7 +35,7 @@ namespace Visma.SecureCoding.Logic.Injection
             StringBuilder textBuilder = new StringBuilder();
             foreach (IAccount account in accountCollection)
             {
-                textBuilder.Append(account.ToString());
+                textBuilder.AppendLine(account.ToString());
             }
             return textBuilder.ToString();
         }
