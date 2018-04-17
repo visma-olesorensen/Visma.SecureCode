@@ -1,0 +1,40 @@
+@using Visma.SecureCoding.Web.Models;
+@model SensitiveDataExposureViewModel
+
+@{
+    ViewData["Title"] = "Sensitive Data Exposure";
+}
+
+<h1>Sensitive Data Exposure</h1>
+
+@if (string.IsNullOrWhiteSpace(Model.PasswordResult) == false)
+{
+    <h3>The password which will be stored in the database</h3>
+    <p>@Html.Raw(Model.PasswordResult)</p>
+}
+
+<h3>Storing a Password as plain text</h3>
+<form asp-controller="SensitiveDataExposure" asp-action="PasswordAsPlainText" method="post">
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="text-right">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Commit</button>
+        </div>
+    </div>
+</form>
+
+<h3>Storing a Password as hashed text</h3>
+<form asp-controller="SensitiveDataExposure" asp-action="PasswordAsHashedText" method="post">
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="text-right">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Commit</button>
+        </div>
+    </div>
+</form>

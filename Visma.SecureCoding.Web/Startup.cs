@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Visma.SecureCoding.DataAccess;
 using Visma.SecureCoding.DataAccess.Contracts;
 using Visma.SecureCoding.Logic.Contracts.Injection;
+using Visma.SecureCoding.Logic.Contracts.SensitiveDataExposure;
 using Visma.SecureCoding.Logic.Injection;
+using Visma.SecureCoding.Logic.SensitiveDataExposure;
 
 namespace Visma.SecureCoding.Web
 {
@@ -23,9 +25,13 @@ namespace Visma.SecureCoding.Web
         {
             services.AddTransient<ISqlConnectionFactory, SqlConnectionFactory>();
             services.AddTransient<ISqlWrapper, SqlWrapper>();
+            services.AddTransient<IPasswordRepository, PasswordRepository>();
             services.AddTransient<IInitializeDatabaseCommandHandler, InitializeDatabaseCommandHandler>();
             services.AddTransient<IAllowedSqlInjectionQueryHandler, AllowedSqlInjectionQueryHandler>();
             services.AddTransient<IDisallowedSqlInjectionByParametersQueryHandler, DisallowedSqlInjectionByParametersQueryHandler>();
+            services.AddTransient<ISecureSensitiveData, SecureSensitiveData>();
+            services.AddTransient<IStorePlainTextPasswordCommandHandler, StorePlainTextPasswordCommandHandler>();
+            services.AddTransient<IStoreHashedPasswordCommandHandler, StoreHashedPasswordCommandHandler>();
             services.AddMvc();
         }
 
