@@ -1,0 +1,16 @@
+IFilteredAccountCollectionQuery.cs:
+        bool IsValid();
+
+FilteredAccountCollectionQuery.cs:
+        #region Methods
+
+        public bool IsValid()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+AllowedSqlInjectionQueryHandler.cs:
+            if (query.IsValid()) throw new ApplicationException("The query filter is not valid!");
+
