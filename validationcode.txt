@@ -12,5 +12,5 @@ FilteredAccountCollectionQuery.cs:
         #endregion
 
 AllowedSqlInjectionQueryHandler.cs:
-            if (query.IsValid()) throw new ApplicationException("The query filter is not valid!");
+            if (query.IsValid() == false) throw new ApplicationException("The query filter is not valid!");
 
