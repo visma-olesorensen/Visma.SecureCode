@@ -40,10 +40,10 @@ namespace Visma.SecureCoding.Web
             services.AddTransient<IPasswordRepository, PasswordRepository>();
             services.AddTransient<IInitializeDatabaseCommandHandler, InitializeDatabaseCommandHandler>();
             services.AddTransient<IAllowedSqlInjectionQueryHandler, AllowedSqlInjectionQueryHandler>();
-            services.AddTransient<IDisallowedSqlInjectionByParametersQueryHandler, DisallowedSqlInjectionByParametersQueryHandler>();
+            services.AddTransient<IDisallowedSqlInjectionQueryHandler, DisallowedSqlInjectionQueryHandler>();
             services.AddTransient<ISecureSensitiveData, SecureSensitiveData>();
             services.AddTransient<IStorePlainTextPasswordCommandHandler, StorePlainTextPasswordCommandHandler>();
-            services.AddTransient<IStoreHashedPasswordCommandHandler, StoreHashedPasswordCommandHandler>();
+            services.AddTransient<IStoreSecuredPasswordCommandHandler, StoreSecuredPasswordCommandHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

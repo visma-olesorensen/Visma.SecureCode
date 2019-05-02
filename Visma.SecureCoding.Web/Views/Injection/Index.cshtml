@@ -40,8 +40,8 @@
     </div>
 </form>
 
-<h3>Execute query where SQL injection are disallowed by SQL parameters</h3>
-<form asp-controller="Injection" asp-action="MakeDisallowSqlInjectionByParametsQuery" method="post">
+<h3>Execute query where SQL injection are disallowed</h3>
+<form asp-controller="Injection" asp-action="MakeDisallowSqlInjectionQuery" method="post">
     <div class="form-group">
         <label>SELECT AccountId,AccountNumber,AccountName,Salary FROM Accounts WHERE AccountId=</label>
         <input asp-for="AccountFilterWithSqlInjection" class="form-control" />

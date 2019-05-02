@@ -6,7 +6,7 @@ using Visma.SecureCoding.Logic.Contracts.Injection;
 
 namespace Visma.SecureCoding.Logic.Injection
 {
-    public class DisallowedSqlInjectionByParametersQueryHandler : IDisallowedSqlInjectionByParametersQueryHandler
+    public class DisallowedSqlInjectionQueryHandler : IDisallowedSqlInjectionQueryHandler
     {
         #region Private variables
 
@@ -16,7 +16,7 @@ namespace Visma.SecureCoding.Logic.Injection
 
         #region Constructor
 
-        public DisallowedSqlInjectionByParametersQueryHandler(ISqlWrapper sqlWrapper)
+        public DisallowedSqlInjectionQueryHandler(ISqlWrapper sqlWrapper)
         {
             if (sqlWrapper == null) throw new ArgumentNullException(nameof(sqlWrapper));
 

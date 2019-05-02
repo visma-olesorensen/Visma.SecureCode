@@ -4,7 +4,7 @@ using Visma.SecureCoding.Logic.Contracts.SensitiveDataExposure;
 
 namespace Visma.SecureCoding.Logic.SensitiveDataExposure
 {
-    public class StoreHashedPasswordCommandHandler : IStoreHashedPasswordCommandHandler
+    public class StoreSecuredPasswordCommandHandler : IStoreSecuredPasswordCommandHandler
     {
         #region Private variables
 
@@ -15,7 +15,7 @@ namespace Visma.SecureCoding.Logic.SensitiveDataExposure
 
         #region Constructors
 
-        public StoreHashedPasswordCommandHandler(IPasswordRepository passwordRepository, ISecureSensitiveData secureSensitiveData)
+        public StoreSecuredPasswordCommandHandler(IPasswordRepository passwordRepository, ISecureSensitiveData secureSensitiveData)
         {
             if (passwordRepository == null) throw new ArgumentNullException(nameof(passwordRepository));
             if (secureSensitiveData == null) throw new ArgumentNullException(nameof(secureSensitiveData));
@@ -32,7 +32,7 @@ namespace Visma.SecureCoding.Logic.SensitiveDataExposure
         {
             if (storePasswordCommand == null) throw new ArgumentNullException(nameof(storePasswordCommand));
 
-            string passwordToStore = _secureSensitiveData.ComputeHash(storePasswordCommand.PasswordToStore);
+            string passwordToStore = _secureSensitiveData.SecureData(storePasswordCommand.PasswordToStore);
             _passwordRepository.StorePassword(passwordToStore);
 
             return passwordToStore;

@@ -1,4 +1,3 @@
-using BCrypt.Net;
 using System;
 using Visma.SecureCoding.Logic.Contracts.SensitiveDataExposure;
 
@@ -8,7 +7,7 @@ namespace Visma.SecureCoding.Logic.SensitiveDataExposure
     {
         #region Methods
 
-        public string ComputeHash(string value)
+        public string SecureData(string value)
         { 
             if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
 

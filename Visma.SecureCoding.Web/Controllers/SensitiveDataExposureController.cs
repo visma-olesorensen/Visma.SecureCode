@@ -11,19 +11,19 @@ namespace Visma.SecureCoding.Web.Controllers
         #region Private variables
 
         private readonly IStorePlainTextPasswordCommandHandler _storePlainTextPasswordCommandHandler;
-        private readonly IStoreHashedPasswordCommandHandler _storeHashedPasswordCommandHandler;
+        private readonly IStoreSecuredPasswordCommandHandler _storeSecuredPasswordCommandHandler;
 
         #endregion
 
         #region Constructor
 
-        public SensitiveDataExposureController(IStorePlainTextPasswordCommandHandler storePlainTextPasswordCommandHandler, IStoreHashedPasswordCommandHandler storeHashedPasswordCommandHandler)
+        public SensitiveDataExposureController(IStorePlainTextPasswordCommandHandler storePlainTextPasswordCommandHandler, IStoreSecuredPasswordCommandHandler storeSecuredPasswordCommandHandler)
         {
             if (storePlainTextPasswordCommandHandler == null) throw new ArgumentNullException(nameof(storePlainTextPasswordCommandHandler));
-            if (storeHashedPasswordCommandHandler == null) throw new ArgumentNullException(nameof(storeHashedPasswordCommandHandler));
+            if (storeSecuredPasswordCommandHandler == null) throw new ArgumentNullException(nameof(storeSecuredPasswordCommandHandler));
 
             _storePlainTextPasswordCommandHandler = storePlainTextPasswordCommandHandler;
-            _storeHashedPasswordCommandHandler = storeHashedPasswordCommandHandler;
+            _storeSecuredPasswordCommandHandler = storeSecuredPasswordCommandHandler;
         }
 
         #endregion
@@ -49,12 +49,12 @@ namespace Visma.SecureCoding.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult PasswordAsHashedText(SensitiveDataExposureViewModel sensitiveDataExposureViewModel)
+        public IActionResult PasswordAsSecuredText(SensitiveDataExposureViewModel sensitiveDataExposureViewModel)
         {
             if (sensitiveDataExposureViewModel == null) throw new ArgumentNullException(nameof(sensitiveDataExposureViewModel));
 
             IStorePasswordCommand storePasswordCommand = new StorePasswordCommand(sensitiveDataExposureViewModel.Password);
-            string result = _storeHashedPasswordCommandHandler.Execute(storePasswordCommand);
+            string result =_storeSecuredPasswordCommandHandler.Execute(storePasswordCommand);
 
             return View("Index", CreateSensitiveDataExposureViewModel(passwordResult: result));
         }

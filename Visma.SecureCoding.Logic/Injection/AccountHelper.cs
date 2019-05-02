@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using Visma.SecureCoding.DataAccess;
 using Visma.SecureCoding.Domain;
 using Visma.SecureCoding.Domain.Contracts;
 
