@@ -11,7 +11,7 @@ namespace Visma.SecureCoding.Logic.SensitiveDataExposure
         { 
             if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
 
-            return BCrypt.Net.BCrypt.HashPassword(value);
+            throw new NotImplementedException();
         }
 
         #endregion

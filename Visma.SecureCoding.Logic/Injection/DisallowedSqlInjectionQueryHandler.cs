@@ -31,13 +31,11 @@ namespace Visma.SecureCoding.Logic.Injection
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            string sqlStatement = $"SELECT AccountId,AccountNumber,AccountName,Salary FROM Accounts WHERE AccountId=@filter";
-            IDictionary<string, object> sqlParameters = new Dictionary<string, object>
-            {
-                {"filter", query.Filter}
-            };
+            //string sqlStatement = $"SELECT AccountId,AccountNumber,AccountName,Salary FROM Accounts WHERE AccountId={query.Filter}";
             
-            return _sqlWrapper.ExecuteReader(query.ConnectionString, sqlStatement, sqlParameters, dataReader => dataReader.ToAccount());
+            //return _sqlWrapper.ExecuteReader(query.ConnectionString, sqlStatement, dataReader => dataReader.ToAccount());
+
+            throw new NotImplementedException();
         }
 
         #endregion

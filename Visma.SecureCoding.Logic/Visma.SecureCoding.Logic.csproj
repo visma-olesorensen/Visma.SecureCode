@@ -6,10 +6,6 @@
     <ProjectReference Include="..\Visma.SecureCoding.Domain\Visma.SecureCoding.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Core" Version="1.4.0" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
